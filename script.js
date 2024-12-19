@@ -37,8 +37,8 @@ function formatPhoneNumber(value) {
 }
 
 // Formatar telefone enquanto digita
-telefone.addEventListener("input", () => {
-    telefone.value = formatPhoneNumber(phone);
+telefone.addEventListener("input", (event) => {
+    telefone.value = formatPhoneNumber(event.target.value);
     if (saveCookies) saveDataToCookies();
 });
 

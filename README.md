@@ -70,7 +70,6 @@
 <p>Possíveis melhorias para o projeto:</p>
 
 <ul>
-    <li>Adicionar a funcionalidade de <strong>checkout</strong> no carrinho.</li>
     <li>Implementar a <strong>persistência de dados</strong> mais avançada (ex: usando <strong>localStorage</strong> ou <strong>API de Backend</strong>).</li>
     <li>Melhorar a <strong>segurança dos cookies</strong> e otimizar a performance do site.</li>
 </ul>
