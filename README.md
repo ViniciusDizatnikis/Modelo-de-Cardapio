@@ -74,7 +74,7 @@
     <li>Melhorar a <strong>segurança dos cookies</strong> e otimizar a performance do site.</li>
 </ul>
 
-<p>Você pode acessar o <a href="https://link-do-seu-site.com" target="_blank">Modelo de Cardápio aqui</a>.</p>
+<p>Você pode acessar o <a href="https://modelo-de-cardapio-hamburgueria-haven.vercel.app" target="_blank">Modelo de Cardápio aqui</a>.</p>
 
 <hr>
 
