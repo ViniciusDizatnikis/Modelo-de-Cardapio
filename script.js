@@ -62,14 +62,18 @@ btnInfo.addEventListener("click", () => {
     }
 
     console.log("Se você esta aqui, voce está analisando meu codigo.\n Obrigado por Testar meu Projeto ;)")
-
-    phone = telefone.value;
     abertura = aberturaInfo.value;
     encerramento = fechamentoInfo.value;
     updateTime(abertura, encerramento);
     if (saveCookies) saveDataToCookies();
     modalInfo.classList.add("hidden");
+    phone = removeFormatting(telefone.value);
 });
+
+//remover os caracteres que não precisa
+function removeFormatting(phoneNumber) {
+    return phoneNumber.replace(/\D/g, '');  // Remove todos os caracteres não numéricos
+}
 
 // Mostrar ou esconder banner de cookies
 banner.classList.remove("translate-y-full");
@@ -262,9 +266,9 @@ checkoutBtn.addEventListener("click", () => {
     }
 
     addressWarn.classList.add("hidden");
-
-    const cartItems = cart.map(item => `${item.name} quantidade: (${item.quantity} R$ ${item.price.toFixed(2)})`).join("\n");
-    const message = encodeURIComponent(`${cartItems} Endereço: ${addressInput.value}`);
+    const total = cartTotal.textContent;
+    const cartItems = cart.map(item => `${item.name} \n quantidade: ${item.quantity} \n R$ ${item.price.toFixed(2)} \n -------------------`).join("\n");
+    const message = encodeURIComponent(`${cartItems} \n Total: ${total} \n Endereço: ${addressInput.value}`);
 
     if (phone === "") {
         addressWarn.textContent = "Numero de telefone Esta vazio";
