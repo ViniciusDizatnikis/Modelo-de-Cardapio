@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Termos de Uso</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+    <div id="terms-modal" class="max-w-3xl mx-auto mt-10 bg-white p-8 rounded-lg shadow-lg">
+        <h1 class="text-3xl font-bold text-gray-800 mb-4">Termos de Uso</h1>
+        <p class="text-gray-700 leading-relaxed mb-6">
+            Bem-vindo ao nosso site! Este documento explica como utilizamos cookies para melhorar sua experiência de uso.
+        </p>
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4">Uso de Cookies</h2>
+        <p class="text-gray-700 leading-relaxed mb-4">
+            Nosso site utiliza cookies para salvar apenas as seguintes informações:
+        </p>
+        <ul class="list-disc pl-5 mb-4 text-gray-700">
+            <li>O número de telefone que você forneceu.</li>
+            <li>Os horários de abertura e fechamento definidos por você.</li>
+        </ul>
+        <p class="text-gray-700 leading-relaxed mb-4">
+            Esses dados são armazenados em cookies para que você não precise digitá-los novamente toda vez que acessar o site. Os cookies têm validade de 1 dia, sendo automaticamente excluídos após esse período.
+        </p>
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4">Segurança e Privacidade</h2>
+        <p class="text-gray-700 leading-relaxed mb-4">
+            Garantimos que as informações armazenadas nos cookies são utilizadas apenas para fins operacionais do site e não serão compartilhadas com terceiros.
+        </p>
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4">Consentimento</h2>
+        <p class="text-gray-700 leading-relaxed mb-6">
+            Ao continuar navegando no site, você concorda com a utilização de cookies conforme descrito acima. Caso não concorde, você pode configurar seu navegador para bloquear cookies, mas isso pode afetar a funcionalidade do site.
+        </p>
+        <div class="text-center">
+            <button id="btn" class="bg-green-500 text-white px-6 py-2 rounded-full hover:bg-green-600 transition duration-200">
+                Fechar
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const btn = document.getElementById("btn");
+        btn.addEventListener("click", () => {
+            window.close(); // Agora está chamando a função corretamente
+        });
+    </script>
+</body>
+</html>

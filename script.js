@@ -44,7 +44,7 @@ telefone.addEventListener("input", (event) => {
 
 // Verificar dados antes de salvar
 function checkInfo(){
-    if(telefone.value === "" || aberturaInfo.value === null ||  fechamentoInfo.value === null){
+    if(telefone.value === "" || aberturaInfo.value.trim() === null ||  fechamentoInfo.value.trim() === null){
         return false
     }
     if (telefone.value < 15){
@@ -64,10 +64,10 @@ btnInfo.addEventListener("click", () => {
     console.log("Se você esta aqui, voce está analisando meu codigo.\n Obrigado por Testar meu Projeto ;)")
     abertura = aberturaInfo.value;
     encerramento = fechamentoInfo.value;
+    phone = removeFormatting(telefone.value);
     updateTime(abertura, encerramento);
     if (saveCookies) saveDataToCookies();
     modalInfo.classList.add("hidden");
-    phone = removeFormatting(telefone.value);
 });
 
 //remover os caracteres que não precisa
@@ -80,8 +80,8 @@ banner.classList.remove("translate-y-full");
 
 acceptBtn.addEventListener("click", () => {
     saveCookies = true;
+    if (telefone.value === "" || aberturaInfo.value.trim() === null  || fechamentoInfo.value.trim() === null) loadDataFromCookies();
     saveDataToCookies();
-    loadDataFromCookies();
     banner.classList.add("hidden");
 });
 
@@ -104,20 +104,9 @@ function saveDataToCookies() {
     const currentAbertura = getCookie('abertura');
     const currentEncerramento = getCookie('encerramento');
 
-    if (phone && phone !== currentPhone) setCookie('phone', phone, 1);
-    if (abertura && abertura !== currentAbertura) setCookie('abertura', abertura, 1);
-    if (encerramento && encerramento !== currentEncerramento) setCookie('encerramento', encerramento, 1);
-}
-
-// Obter valor do cookie
-function getCookie(name) {
-    const nameEQ = name + "=";
-    const ca = document.cookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i].trim();
-        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-    }
-    return null;
+    if (phone !== currentPhone) setCookie('phone', phone, 1);
+    if (abertura !== currentAbertura) setCookie('abertura', abertura, 1);
+    if (encerramento !== currentEncerramento) setCookie('encerramento', encerramento, 1);
 }
 
 // Carregar dados dos cookies
@@ -131,6 +120,17 @@ function loadDataFromCookies() {
     if (savedPhone) telefone.value = savedPhone;
     if (savedAbertura) aberturaInfo.value = savedAbertura;
     if (savedEncerramento) fechamentoInfo.value = savedEncerramento;
+}
+
+// Obter valor do cookie
+function getCookie(name) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i].trim();
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
 }
 
 // Atualizar horários no header
@@ -208,19 +208,27 @@ function updateCartModal() {
     cart.forEach(item => {
         const cartItemElement = document.createElement("div");
         cartItemElement.innerHTML = `
-            <div class="flex justify-between items-center border-black p-4">
-                <div>
-                    <ul class="list-none space-y-2">
-                        <li class="font-bold">Nome do item:</li>
-                        <li class="font-sans">${item.name}</li>
-                        <li class="font-bold">Quantidade: <span class="font-sans">${item.quantity}</span></li>
-                        <li class="font-bold">Preço: <span class="font-sans">${item.price.toFixed(2)}</span></li>
-                    </ul>
-                </div>
-                <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 remove-cart-btn" data-name="${item.name}">
-                    Remover
-                </button>
-            </div>
+           <div class="flex justify-between items-center border-black p-4">
+    <div>
+        <div class="font-bold">Nome do item:</div>
+        <div class="font-sans">${item.name}</div>
+        <div class="font-bold">
+        <p class="font-bold">Quantidade:</p> 
+        <button class=" btn-remove bg-red-500 text-white px-2 py-1 hover:bg-red-600 rounded-full" data-name="${item.name}">
+         -
+         </button>
+        <span class="font-sans">${item.quantity}</span>
+        <button class="btn-add bg-red-500 text-white px-2 py-1 hover:bg-red-600 rounded-full" data-name="${item.name}">
+         +
+         </button>
+        </div>
+        <div class="font-bold">Preço: <span class="font-sans">${item.price.toFixed(2)}</span></div>
+    </div>
+    <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 remove-cart-btn" data-name="${item.name}">
+        Remover
+    </button>
+</div>
+
         `;
         total += item.price * item.quantity; 
         cartItemsContainer.appendChild(cartItemElement);
@@ -232,9 +240,20 @@ function updateCartModal() {
 
 // Remove item do carrinho
 cartItemsContainer.addEventListener("click", (event) => {
+    const name = event.target.getAttribute("data-name");
+    
     if (event.target.classList.contains("remove-cart-btn")) {
-        const name = event.target.getAttribute("data-name");
+        const index = cart.findIndex(item => item.name === name);
+        cart.splice(index, 1);
+        updateCartModal();
+    }
+
+    if (event.target.classList.contains("btn-remove")) {
         removeItemCart(name);
+    }
+
+    if (event.target.classList.contains("btn-add")) {
+        addToCart(name);
     }
 });
 
