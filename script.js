@@ -36,6 +36,12 @@ function formatPhoneNumber(value) {
     return formattedPhone;
 }
 
+// Função para validar o telefone no formato (XX) XXXXX-XXXX
+function isValidPhone(phone) {
+    const phoneRegex = /^\(\d{2}\) \d{5}-\d{4}$/; 
+    return phoneRegex.test(phone); 
+}
+
 // Formatar telefone enquanto digita
 telefone.addEventListener("input", (event) => {
     telefone.value = formatPhoneNumber(event.target.value);
@@ -43,28 +49,40 @@ telefone.addEventListener("input", (event) => {
 });
 
 // Verificar dados antes de salvar
-function checkInfo(){
-    if(telefone.value === "" || aberturaInfo.value.trim() === null ||  fechamentoInfo.value.trim() === null){
-        return false
+function checkInfo() {
+    if (!isValidPhone(telefone.value)) {
+        warnInfo.textContent = "Número de telefone inválido! Use o formato (XX) XXXXX-XXXX.";
+        warnInfo.classList.remove("hidden");
+        return false;
     }
-    if (telefone.value < 15){
-        return false
+
+    if (!aberturaInfo.value || aberturaInfo.value.trim() === "") {
+        warnInfo.textContent = "Preencha o horário de abertura!";
+        warnInfo.classList.remove("hidden");
+        return false;
     }
-    return true
+
+    if (!fechamentoInfo.value || fechamentoInfo.value.trim() === "") {
+        warnInfo.textContent = "Preencha o horário de fechamento!";
+        warnInfo.classList.remove("hidden");
+        return false;
+    }
+
+    warnInfo.classList.add("hidden");
+    return true;
 }
 
 // Salvar horário e telefone no cookie
 btnInfo.addEventListener("click", () => {
     if (!checkInfo()) {
-        warnInfo.textContent = "Preencha todos os campos corretamente!";
-        warnInfo.classList.remove("hidden");
         return;
     }
 
-    console.log("Se você esta aqui, voce está analisando meu codigo.\n Obrigado por Testar meu Projeto ;)")
-    abertura = aberturaInfo.value;
-    encerramento = fechamentoInfo.value;
+    console.log("Se você esta vendo isso, Obrigado por testar meu projeto! ;)");
+    abertura = aberturaInfo.value.trim();
+    encerramento = fechamentoInfo.value.trim();
     phone = removeFormatting(telefone.value);
+    
     updateTime(abertura, encerramento);
     if (saveCookies) saveDataToCookies();
     modalInfo.classList.add("hidden");
@@ -72,7 +90,7 @@ btnInfo.addEventListener("click", () => {
 
 //remover os caracteres que não precisa
 function removeFormatting(phoneNumber) {
-    return phoneNumber.replace(/\D/g, '');  // Remove todos os caracteres não numéricos
+    return phoneNumber.replace(/\D/g, ''); 
 }
 
 // Mostrar ou esconder banner de cookies
@@ -80,7 +98,7 @@ banner.classList.remove("translate-y-full");
 
 acceptBtn.addEventListener("click", () => {
     saveCookies = true;
-    if (telefone.value === "" || aberturaInfo.value.trim() === null  || fechamentoInfo.value.trim() === null) loadDataFromCookies();
+    loadDataFromCookies();
     saveDataToCookies();
     banner.classList.add("hidden");
 });
@@ -100,26 +118,28 @@ function setCookie(name, value, days) {
 
 // Salvar dados no cookie
 function saveDataToCookies() {
-    const currentPhone = getCookie('phone');
-    const currentAbertura = getCookie('abertura');
-    const currentEncerramento = getCookie('encerramento');
-
-    if (phone !== currentPhone) setCookie('phone', phone, 1);
-    if (abertura !== currentAbertura) setCookie('abertura', abertura, 1);
-    if (encerramento !== currentEncerramento) setCookie('encerramento', encerramento, 1);
+    try {
+        if (phone) setCookie('phone', phone, 1);
+        if (abertura) setCookie('abertura', abertura, 1);
+        if (encerramento) setCookie('encerramento', encerramento, 1);
+    } catch (error) {
+        console.error("Erro ao salvar cookies:", error);
+    }
 }
 
 // Carregar dados dos cookies
 function loadDataFromCookies() {
-    if (!saveCookies) return;
+    if (!saveCookies) return; 
 
-    const savedPhone = getCookie('phone');
-    const savedAbertura = getCookie('abertura');
-    const savedEncerramento = getCookie('encerramento');
+    const savedPhone = getCookie('phone') || "";
+    const savedAbertura = getCookie('abertura') || "00:00";
+    const savedEncerramento = getCookie('encerramento') || "00:00";
 
-    if (savedPhone) telefone.value = savedPhone;
-    if (savedAbertura) aberturaInfo.value = savedAbertura;
-    if (savedEncerramento) fechamentoInfo.value = savedEncerramento;
+    const FPhone = formatPhoneNumber(savedPhone);
+
+    if (savedPhone && telefone.value.trim() === "") telefone.value = FPhone;
+    if (savedAbertura && aberturaInfo.value.trim() === "") aberturaInfo.value = savedAbertura;
+    if (savedEncerramento && fechamentoInfo.value.trim() === "") fechamentoInfo.value = savedEncerramento;
 }
 
 // Obter valor do cookie
@@ -163,6 +183,7 @@ function updateRestaurantStatus() {
     }
 }
 
+updateRestaurantStatus();
 setInterval(updateRestaurantStatus, 15000);
 
 
@@ -301,6 +322,9 @@ checkoutBtn.addEventListener("click", () => {
     cart = []; 
     addressInput.value = ""; 
     updateCartModal(); 
+
+    checkoutBtn.disabled = true;
+    setTimeout(() => (checkoutBtn.disabled = false), 3000);
 });
 
 // Exibe notificações (toast)
