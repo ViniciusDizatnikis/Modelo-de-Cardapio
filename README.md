@@ -49,9 +49,9 @@
 <p>Este projeto utilizou:</p>
 
 <ul>
-    <li><strong>HTML5</strong>: Estrutura semântica da página.</li>
-    <li><strong>Tailwind CSS</strong>: Framework CSS para facilitar o design e garantir um layout responsivo.</li>
-    <li><strong>JavaScript</strong>: Para adicionar funcionalidades, como carrinho de compras e cookies.</li>
+    <li><strong>HTML5</strong>
+    <li><strong>Tailwind CSS</strong>
+    <li><strong>JavaScript</strong>
 </ul>
 
 <h2>Objetivos de Aprendizado</h2>
@@ -63,15 +63,6 @@
     <li>Criar a <strong>lógica do carrinho</strong> de compras com JavaScript.</li>
     <li>Implementar e trabalhar com <strong>cookies</strong> para salvar informações do usuário.</li>
     <li>Melhorar a compreensão sobre <strong>layout responsivo</strong> e <strong>interatividade no front-end</strong>.</li>
-</ul>
-
-<h2>Melhorias Futuras</h2>
-
-<p>Possíveis melhorias para o projeto:</p>
-
-<ul>
-    <li>Implementar a <strong>persistência de dados</strong> mais avançada (ex: usando <strong>localStorage</strong> ou <strong>API de Backend</strong>).</li>
-    <li>Melhorar a <strong>segurança dos cookies</strong> e otimizar a performance do site.</li>
 </ul>
 
 <p>Você pode acessar o <a href="https://modelo-de-cardapio-hamburgueria-haven.vercel.app" target="_blank">Modelo de Cardápio aqui</a>.</p>
